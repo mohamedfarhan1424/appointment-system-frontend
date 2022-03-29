@@ -40,7 +40,7 @@ function Home() {
           phoneno: response.phoneno,
         },
       });
-      navigate("/patientdashboard");
+      navigate("/dashboard");
     }
   };
 
@@ -72,7 +72,7 @@ function Home() {
           speciality:response.speciality,
         },
       });
-      navigate("/doctordashboard");
+      navigate("/dashboard");
     }
   };
   const handlePatientSubmit = (event) => {

@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import DoctorDashboard from './Components/DoctorDashboard';
+import Dashboard from './Components/Dashboard';
 import Home from './Components/Home';
-import PatientDashboard from './Components/PatientDashboard';
 import Signup from './Components/Signup';
 
 function App() {
@@ -21,8 +20,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/signup' element={<Signup/>}/>
-      <Route path='/patientdashboard' element={<PatientDashboard/>}/>
-      <Route path='/doctordashboard' element={<DoctorDashboard/>}/>
+      <Route path='/dashboard' element={<Dashboard/>}/>
     </Routes>
     </BrowserRouter>
     </>

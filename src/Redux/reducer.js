@@ -19,6 +19,7 @@ const initState = {
           username: action.payload.username,
           isAuthenticated: action.payload.isAuthenticated,
           phoneno:action.payload.phoneno,
+          isDoctor:false,
           isAdmin:false,
         };
         case "LOG_IN_DOCTOR":
@@ -31,6 +32,7 @@ const initState = {
             phoneno:action.payload.phoneno,
             education:action.payload.education,
             speciality:action.payload.speciality,
+            isAuthenticated:true,
             isAdmin:false,
           };
         case "ADMIN":

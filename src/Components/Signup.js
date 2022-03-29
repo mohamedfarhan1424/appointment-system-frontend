@@ -37,7 +37,7 @@ function Signup() {
               phoneno: phoneno,
             },
           });
-          navigate("/patientdashboard");
+          navigate("/dashboard");
         }
       };
 
@@ -58,7 +58,7 @@ function Signup() {
               speciality:dspeciality,
             },
           });
-          navigate("/doctordashboard");
+          navigate("/dashboard");
         }
       };
 
