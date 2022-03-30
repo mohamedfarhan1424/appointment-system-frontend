@@ -38,6 +38,15 @@ const initState = {
               name:action.payload.name,
               email:action.payload.email,
               phoneno:action.payload.phoneno,
+            };
+            case "UPDATE_DOCTOR":
+            return {
+              ...state,
+              name:action.payload.name,
+              email:action.payload.email,
+              phoneno:action.payload.phoneno,
+              education:action.payload.education,
+              speciality:action.payload.speciality,
             }
         
        
