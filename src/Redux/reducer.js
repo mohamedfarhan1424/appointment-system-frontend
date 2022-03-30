@@ -4,7 +4,6 @@ const initState = {
     username:"",
     isAuthenticated: false,
     isDoctor:false,
-    isAdmin:false,
     phoneno:"",
     education:"",
     speciality:"",
@@ -20,7 +19,6 @@ const initState = {
           isAuthenticated: action.payload.isAuthenticated,
           phoneno:action.payload.phoneno,
           isDoctor:false,
-          isAdmin:false,
         };
         case "LOG_IN_DOCTOR":
           return {
@@ -33,18 +31,15 @@ const initState = {
             education:action.payload.education,
             speciality:action.payload.speciality,
             isAuthenticated:true,
-            isAdmin:false,
           };
-        case "ADMIN":
-          return {
-            ...state,
-            name: action.payload.name,
-          email: action.payload.email,
-          username: action.payload.username,
-          isAuthenticated: action.payload.isAuthenticated,
-          phoneno:action.payload.phoneno,
-          isAdmin:true,
-          };
+          case "UPDATE_PATIENT":
+            return {
+              ...state,
+              name:action.payload.name,
+              email:action.payload.email,
+              phoneno:action.payload.phoneno,
+            }
+        
        
       case "LOG_OUT":
         return {

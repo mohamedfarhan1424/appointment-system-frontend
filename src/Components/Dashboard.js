@@ -27,8 +27,11 @@ function PatientDashboard() {
     setRows(response);
   };
 
+  const handleDoctorSchedules=(response)=>{
+    setScheduleRows(response);
+  }
+
   const handleAddSchedule = () => {
-      setScheduleTime(scheduleTime+'');
     const url = `${process.env.REACT_APP_API_ROUTE}/addschedule`;
     const requestOptions = {
       method: "POST",
@@ -47,6 +50,10 @@ function PatientDashboard() {
       .then((response) => handleSchedules(response))
       .catch((error) => console.log("Form submit error", error));
   };
+
+
+
+
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/getallschedules`;
     const requestOptions = {
@@ -56,7 +63,22 @@ function PatientDashboard() {
       .then((response) => (response = response.json()))
       .then((response) => handleSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, []);
+  }, [rows]);
+
+  
+
+
+ 
+    useEffect(()=>{
+      const url=`${process.env.REACT_APP_API_ROUTE}/getschedule/${state.username}`;
+      const requestOptions={method:"GET"};
+      fetch(url, requestOptions)
+      .then((response) => (response = response.json()))
+      .then((response) => handleDoctorSchedules(response))
+      .catch((error) => console.log("Form submit error", error));
+    },[state.username,rows]);
+
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,6 +100,8 @@ function PatientDashboard() {
   return (
     <>
       <div className="dashboard">
+        {!state.isDoctor &&(<h2>Patient Dashboard</h2>)}
+        {state.isDoctor &&(<h2>Doctor Dashboard</h2>)}
         <h3>Welcome {state.name}</h3>
       </div>
       {!state.isDoctor && (
@@ -96,8 +120,7 @@ function PatientDashboard() {
       )}
       {state.isDoctor && (
         <div>
-          <div className="tablediv">
-            <div className="d-flex justify-content-around">
+          <div className="d-flex justify-content-around">
               <h5>Your Schedules</h5>
               <button
                 className="btn btn-primary"
@@ -106,11 +129,15 @@ function PatientDashboard() {
                 Add Schedule
               </button>
             </div>
+          <div className="tablediv">
+            
             <CustomizedTable
               head1="Schedule Date"
               head2="Schedule Day"
               head3="Schedule Time"
-              head4="Remove"
+              head4="Status"
+              head5="Remove"
+              head6={false}
               rows={scheduleRows}
             />
           </div>
@@ -138,7 +165,7 @@ function PatientDashboard() {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Close</Button>
-                <Button onClick={() => handleAddSchedule()}>
+                <Button onClick={() => {handleClose();handleAddSchedule();}}>
                   Add Schedule
                 </Button>
               </DialogActions>
