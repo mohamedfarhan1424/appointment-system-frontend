@@ -18,6 +18,7 @@ import "../App.css";
 import { useSelector } from "react-redux";
 import '../App.css'
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 
 const useStyles=makeStyles({
@@ -76,6 +77,7 @@ export default function CustomizedTable({
   const [cancelId, setCancelId] = React.useState(0);
   const [selected, setSelected] = React.useState({});
   const [reason, setReason] = React.useState("");
+  const navigate=useNavigate();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -152,6 +154,8 @@ export default function CustomizedTable({
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .catch((error) => console.log("Form submit error", error));
+
+      navigate('/appointments');
   };
 
   const days = [
@@ -166,7 +170,7 @@ export default function CustomizedTable({
 
   return (
     <>
-      <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }} elevation={3}>
+      <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }} >
         {rows && rows.length === 0 && (
           <>
             {head6 && head5 && (
