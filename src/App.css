@@ -1,64 +1,105 @@
-.head{
+.head {
   text-align: left;
-  background:linear-gradient(to right, #25aae1, #40e495);
+  background: linear-gradient(to right, #25aae1, #40e495);
   display: grid;
   grid-template-columns: 50% 50%;
   padding: 1%;
   margin-bottom: 2%;
   position: sticky;
-  border-bottom: 1px solid #87CEFA;
-  color:white
+  border-bottom: 1px solid #87cefa;
+  color: white;
 }
-.navbuttons{
+.navbuttons {
   display: flex;
   justify-content: space-around;
 }
-.dashboard{
+.dashboard {
   padding: 1%;
   text-align: center;
   z-index: -1;
   margin-top: 5%;
 }
-.buttons{
+.buttons {
   width: 9vw;
-  background-color: #E0FFFF;
+  background-color: #e0ffff;
   color: black;
   border: none;
   border-radius: 12px;
-  box-shadow:  4px 4px 10px 2px gainsboro;
+  box-shadow: 4px 4px 10px 2px gainsboro;
 }
-.buttons:hover{
-  box-shadow:  4px 4px 10px 2px pink;
+.buttons:hover {
+  box-shadow: 4px 4px 10px 2px pink;
 }
-.loopbutton{
+.loopbutton {
   width: 7vw;
-  background-color: cyan;
   color: black;
+  background-color: aqua;
   border: none;
   border-radius: 12px;
-  box-shadow:  4px 4px 10px 2px gainsboro;
+  box-shadow: 4px 4px 10px 2px gainsboro;
 }
-.loopbutton:hover{
-  box-shadow:  4px 4px 10px 2px pink;
+.loopbutton:hover {
+  box-shadow: 4px 4px 10px 2px pink;
 }
-.centerdiv{
+.imgicon {
+  cursor: pointer;
+}
+.centerdiv {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 100%;
 }
-.carder{
+.login {
+  text-align: center;
+}
+.logincarder {
+  border: 1px solid black;
+  border-radius: 12px;
+  padding: 7%;
+  margin-top: 3%;
+  width: 30%;
+  height: 300px;
+  text-align: center;
+  display: block;
+  justify-content: space-around;
+}
+.carder {
   border: 1px solid black;
   border-radius: 12px;
   padding: 2%;
   margin-top: 3%;
+  text-align: center;
 }
-.tablediv{
+.errormsg {
+  color: red;
+}
+.forminput {
+  display: flex;
+  justify-content: space-between;
+}
+.tablediv {
   padding: 1%;
   margin-top: 1%;
 }
-.profilediv{
+.profilediv {
   padding: 2%;
 }
-.profile{
+.profile {
   padding: 1%;
+}
+.falsestatus {
+  background-color: grey;
+  color: white;
+  width: 40%;
+  border-radius: 7px;
+  text-align: center;
+  margin-left: 30%;
+}
+.truestatus{
+  background-color: green;
+  color: white;
+  width: 40%;
+  border-radius: 7px;
+  text-align: center;
+  margin-left: 30%;
 }

@@ -7,6 +7,7 @@ const initState = {
     phoneno:"",
     education:"",
     speciality:"",
+    accessToken:"",
   };
   export function reducer(state = initState, action) {
     switch (action.type) {
@@ -19,6 +20,7 @@ const initState = {
           isAuthenticated: action.payload.isAuthenticated,
           phoneno:action.payload.phoneno,
           isDoctor:false,
+          accessToken:action.payload.accessToken,
         };
         case "LOG_IN_DOCTOR":
           return {
@@ -31,6 +33,7 @@ const initState = {
             education:action.payload.education,
             speciality:action.payload.speciality,
             isAuthenticated:true,
+            accessToken:action.payload.accessToken,
           };
           case "UPDATE_PATIENT":
             return {

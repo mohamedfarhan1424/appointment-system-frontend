@@ -21,21 +21,21 @@ function Appointments() {
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/patientschedules/${state.username}`;
-    const requestOptions = { method: "GET" };
+    const requestOptions = { method: "GET",headers:{"Authorization":`Bearer ${state.accessToken}` } };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handlePatientSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username,rows]);
+  }, [state.username,state.accessToken,rows]);
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/getappointments/${state.username}`;
-    const requestOptions = { method: "GET" };
+    const requestOptions = { method: "GET",headers:{"Authorization":`Bearer ${state.accessToken}` } };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handleDoctorSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username]);
+  }, [state.username,state.accessToken]);
 
   if (!state.isAuthenticated) {
     navigate("/");

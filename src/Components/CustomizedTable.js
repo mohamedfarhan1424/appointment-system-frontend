@@ -16,6 +16,17 @@ import {
 } from "@mui/material";
 import "../App.css";
 import { useSelector } from "react-redux";
+import '../App.css'
+import { makeStyles } from "@mui/styles";
+
+
+const useStyles=makeStyles({
+  tableBody:{
+    height:"2vw",
+    textAlign:"center",
+    color:"white"
+  }
+})
 
 export default function CustomizedTable({
   head1,
@@ -26,6 +37,7 @@ export default function CustomizedTable({
   head6,
   rows,
 }) {
+  const classes=useStyles();
   const state = useSelector((state) => state);
   const columns = [
     { id: head1, label: head1, minWidth: 170 },
@@ -34,34 +46,34 @@ export default function CustomizedTable({
       id: head3,
       label: head3,
       minWidth: 170,
-      align: "right",
+      align: "center",
     },
     {
       id: head4,
       label: head4,
       minWidth: 170,
-      align: "right",
+      align: "center",
     },
     {
       id: head5,
       label: head5,
       minWidth: 170,
-      align: "right",
+      align: "center",
     },
     {
       id: head6,
       label: head6,
       minWidth: 170,
-      align: "right",
+      align: "center",
     },
   ];
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
-  const [open2,setOpen2]=React.useState(false);
-  const [open3,setOpen3]=React.useState(false);
-  const [removeId,setRemoveId]=React.useState(0);
-  const [cancelId,setCancelId]=React.useState(0);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
+  const [removeId, setRemoveId] = React.useState(0);
+  const [cancelId, setCancelId] = React.useState(0);
   const [selected, setSelected] = React.useState({});
   const [reason, setReason] = React.useState("");
 
@@ -92,7 +104,6 @@ export default function CustomizedTable({
     setOpen2(false);
   };
 
-
   const handleRemoveOpen = (scheduleId) => {
     setRemoveId(scheduleId);
     setOpen3(true);
@@ -102,22 +113,22 @@ export default function CustomizedTable({
     setOpen3(false);
   };
 
-  const handleRemoveSchedule=()=>{
+  const handleRemoveSchedule = () => {
     const url = `${process.env.REACT_APP_API_ROUTE}/deleteschedule/${removeId}`;
     const requestOptions = {
-      method: "DELETE"
+      method: "DELETE",
+      headers:{"Authorization":`Bearer ${state.accessToken}` }
     };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .catch((error) => console.log("Form submit error", error));
-  }
+  };
 
-
-  const handleCancelAppointment=()=>{
+  const handleCancelAppointment = () => {
     const url = `${process.env.REACT_APP_API_ROUTE}/cancelappointment`;
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,"Authorization":`Bearer ${state.accessToken}` },
       body: JSON.stringify({
         scheduleId: cancelId,
       }),
@@ -125,13 +136,13 @@ export default function CustomizedTable({
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .catch((error) => console.log("Form submit error", error));
-  }
+  };
 
   const handleGetAppointment = () => {
     const url = `${process.env.REACT_APP_API_ROUTE}/makeschedule`;
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json","Authorization":`Bearer ${state.accessToken}`  },
       body: JSON.stringify({
         patientName: state.username,
         reason: reason,
@@ -155,171 +166,219 @@ export default function CustomizedTable({
 
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map(
-                  (column) =>
-                    column.label && (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    )
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {head6 &&
-                head5 &&
-                rows &&
-                rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.schedule_id}
-                      >
-                        <TableCell>{row.doctor_name}</TableCell>
-                        <TableCell align="right">{row.education}</TableCell>
-                        <TableCell align="right">{row.speciality}</TableCell>
-                        <TableCell align="right">{row.schedule_date}</TableCell>
-                        <TableCell align="right">{row.schedule_time}</TableCell>
-                        <TableCell align="right">
-                          <button
-                            className="loopbutton"
-                            onClick={() => handleClickOpen(row)}
+      <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }} elevation={3}>
+        {rows && rows.length === 0 && (
+          <>
+            {head6 && head5 && (
+              <p className="errormsg">There is no available doctors now.</p>
+            )}
+            {!head6 && head5 === "Remove" && (
+              <p className="errormsg">You have not added any shcedules.</p>
+            )}
+            {!head6 && head5 === "Cancel" && (
+              <p className="errormsg">
+                You have not booked any appointments.
+              </p>
+            )}
+            {!head6 && head5 === "Reason" && (
+              <p className="errormsg">
+                You have not booked by any patients
+              </p>
+            )}
+          </>
+        )}
+        {rows && rows.length !== 0 && (
+          <>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map(
+                      (column) =>
+                        column.label && (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth }}
                           >
-                            Get Appointment
-                          </button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              {!head6 &&
-                head5 === "Remove" &&
-                rows &&
-                rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.schedule_id}
-                      >
-                        <TableCell>{row.schedule_date}</TableCell>
-                        <TableCell align="right">
-                          {days[new Date(row.schedule_date).getDay()]}
-                        </TableCell>
-                        <TableCell align="right">{row.schedule_time}</TableCell>
-                        <TableCell align="right">
-                          {row.patient_booked === null && (
-                            <p
-                              style={{
-                                backgroundColor: "Grey",
-                                color: "White",
-                                width: "40%",
-                                float: "right",
-                                borderRadius: "7px",
-                                textAlign: "Center",
-                              }}
-                            >
-                              Not Booked
-                            </p>
-                          )}
-                          {row.patient_booked !== null && (
-                            <p
-                              style={{
-                                backgroundColor: "green",
-                                color: "White",
-                                width: "40%",
-                                float: "right",
-                                borderRadius: "7px",
-                                textAlign: "Center",
-                              }}
-                            >
-                              Booked
-                            </p>
-                          )}
-                        </TableCell>
-                        <TableCell align="right">
-                          {row.patient_booked===null&&(<button className="loopbutton" onClick={()=>handleRemoveOpen(row.schedule_id)}>Remove</button>)}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              {!head6 &&
-                head5 === "Cancel" &&
-                rows &&
-                rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.schedule_id}
-                      >
-                        <TableCell>{row.doctor_name}</TableCell>
-                        <TableCell align="right">{row.schedule_date}</TableCell>
-                        <TableCell align="right">
-                          {days[new Date(row.schedule_date).getDay()]}
-                        </TableCell>
-                        <TableCell align="right">{row.schedule_time}</TableCell>
-                        <TableCell align="right">
-                          <button className="loopbutton" onClick={()=>handleCancelOpen(row.schedule_id)}>Cancel</button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              {!head6 &&
-                head5 === "Reason" &&
-                rows &&
-                rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.schedule_id}
-                      >
-                        <TableCell>{row.patient_booked}</TableCell>
-                        <TableCell align="right">{row.schedule_date}</TableCell>
-                        <TableCell align="right">
-                          {days[new Date(row.schedule_date).getDay()]}
-                        </TableCell>
-                        <TableCell align="right">{row.schedule_time}</TableCell>
-                        <TableCell align="right">
-                          {row.patient_reason}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+                            {column.label}
+                          </TableCell>
+                        )
+                    )}
+                  </TableRow>
+                </TableHead>
+                <TableBody  className={classes.tableBody}>
+                  {head6 &&
+                    head5 &&
+                    rows &&
+                    rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.schedule_id}
+                          >
+                            <TableCell>{row.doctor_name}</TableCell>
+                            <TableCell align="center">{row.education}</TableCell>
+                            <TableCell align="center">
+                              {row.speciality}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.schedule_date}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.schedule_time}
+                            </TableCell>
+                            <TableCell align="center">
+                              <button
+                                className="loopbutton"
+                                onClick={() => handleClickOpen(row)}
+                              >
+                                Get Appointment
+                              </button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  {!head6 &&
+                    head5 === "Remove" &&
+                    rows &&
+                    rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.schedule_id}
+                          >
+                            <TableCell>{row.schedule_date}</TableCell>
+                            <TableCell align="center">
+                              {days[new Date(row.schedule_date).getDay()]}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.schedule_time}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.patient_booked === null && (
+                                <p
+                                  className="falsestatus"
+                                >
+                                  Not Booked
+                                </p>
+                              )}
+                              {row.patient_booked !== null && (
+                                <p
+                                  className="truestatus"
+                                >
+                                  Booked
+                                </p>
+                              )}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.patient_booked === null && (
+                                
+                                  <img className="imgicon" alt="trash icon" onClick={() =>
+                                    handleRemoveOpen(row.schedule_id)
+                                  } src="https://img.icons8.com/color/20/000000/delete-forever.png"/>
+                              
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  {!head6 &&
+                    head5 === "Cancel" &&
+                    rows &&
+                    rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.schedule_id}
+                          >
+                            <TableCell>{row.doctor_name}</TableCell>
+                            <TableCell align="center">
+                            {row.schedule_date}
+                            </TableCell>
+                            <TableCell align="center">
+                              {days[new Date(row.schedule_date).getDay()]}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.schedule_time}
+                            </TableCell>
+                            <TableCell align="center">
+                              
+                                <img className="imgicon" alt="trash icon" onClick={() =>
+                                  handleCancelOpen(row.schedule_id)
+                                } src="https://img.icons8.com/color/20/000000/delete-forever.png"/>
+                           
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  {!head6 &&
+                    head5 === "Reason" &&
+                    rows &&
+                    rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.schedule_id}
+                          >
+                            <TableCell>{row.patient_booked}</TableCell>
+                            <TableCell align="center">
+                              {row.schedule_date}
+                            </TableCell>
+                            <TableCell align="center">
+                              {days[new Date(row.schedule_date).getDay()]}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.schedule_time}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.patient_reason}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
       </Paper>
       <div>
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -367,11 +426,9 @@ export default function CustomizedTable({
         </Dialog>
       </div>
       <div>
-        <Dialog open={open2} onClose={handleCancelClose} >
+        <Dialog open={open2} onClose={handleCancelClose}>
           <DialogTitle>Cancel Appointment</DialogTitle>
-          <DialogContent>
-            Are you sure to Cancel?
-          </DialogContent>
+          <DialogContent>Are you sure to Cancel?</DialogContent>
           <DialogActions>
             <Button onClick={handleCancelClose}>No</Button>
             <Button
@@ -388,11 +445,9 @@ export default function CustomizedTable({
         </Dialog>
       </div>
       <div>
-        <Dialog open={open3} onClose={handleRemoveClose} >
+        <Dialog open={open3} onClose={handleRemoveClose}>
           <DialogTitle>Remove Schedule</DialogTitle>
-          <DialogContent>
-            Are you sure to Remove?
-          </DialogContent>
+          <DialogContent>Are you sure to Remove?</DialogContent>
           <DialogActions>
             <Button onClick={handleRemoveClose}>No</Button>
             <Button

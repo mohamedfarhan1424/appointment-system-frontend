@@ -35,7 +35,7 @@ function PatientDashboard() {
     const url = `${process.env.REACT_APP_API_ROUTE}/addschedule`;
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json","Authorization":`Bearer ${state.accessToken}`  },
       body: JSON.stringify({
         scheduleDate,
         scheduleTime,
@@ -58,12 +58,13 @@ function PatientDashboard() {
     const url = `${process.env.REACT_APP_API_ROUTE}/getallschedules`;
     const requestOptions = {
       method: "GET",
+      headers:{"Authorization":`Bearer ${state.accessToken}`}
     };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handleSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [rows]);
+  }, [rows,state.accessToken]);
 
   
 
@@ -71,12 +72,12 @@ function PatientDashboard() {
  
     useEffect(()=>{
       const url=`${process.env.REACT_APP_API_ROUTE}/getschedule/${state.username}`;
-      const requestOptions={method:"GET"};
+      const requestOptions={method:"GET",headers:{"Authorization":`Bearer ${state.accessToken}` }};
       fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handleDoctorSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-    },[state.username,rows]);
+    },[rows,state.username,state.accessToken]);
 
   
 
