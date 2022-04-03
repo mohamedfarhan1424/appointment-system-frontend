@@ -104,12 +104,53 @@ function PatientDashboard() {
 
     
 
-    const requestSearch = (name) => {
-      
-      const filteredRows = allRows.filter((row) => {
-        return row.doctor_name.toLowerCase().includes(name.toLowerCase());
-      });
-    setRows(filteredRows);
+    const requestSearch = (name,date,time) => {
+      if(name===""&&date===""&&time===""){
+        return;
+      }
+      else if(name==="" && date===""){
+        const filteredRows = allRows.filter((row) => {
+          return row.schedule_time.toLowerCase().includes(time.toLowerCase());
+        });
+        setRows(filteredRows);
+      }
+      else if(name===""&&time===""){
+        const filteredRows = allRows.filter((row) => {
+          return row.schedule_date.toLowerCase().includes(date.toLowerCase());
+        });
+        setRows(filteredRows);
+      }
+      else if(time===""&&date===""){
+        const filteredRows = allRows.filter((row) => {
+          return row.doctor_name.toLowerCase().includes(name.toLowerCase());
+        });
+        setRows(filteredRows);
+      }
+      else if(name===""){
+        const filteredRows = allRows.filter((row) => {
+          return (row.schedule_date.toLowerCase().includes(date.toLowerCase())&&row.schedule_time.toLowerCase().includes(time.toLowerCase()))
+        });
+        setRows(filteredRows);
+      }
+      else if(date===""){
+        const filteredRows = allRows.filter((row) => {
+          return (row.doctor_name.toLowerCase().includes(name.toLowerCase())&&row.schedule_time.toLowerCase().includes(time.toLowerCase()))
+        });
+        setRows(filteredRows);
+      }
+      else if(time===""){
+        const filteredRows = allRows.filter((row) => {
+          return (row.schedule_date.toLowerCase().includes(date.toLowerCase())&&row.doctor_name.toLowerCase().includes(name.toLowerCase()))
+        });
+        setRows(filteredRows);
+      }
+      else{
+        const filteredRows = allRows.filter((row) => {
+          return (row.schedule_date.toLowerCase().includes(date.toLowerCase())&&row.doctor_name.toLowerCase().includes(name.toLowerCase())&&row.schedule_time.toLowerCase().includes(time.toLowerCase()))
+        });
+        setRows(filteredRows);
+      }
+    
   };
   
 
@@ -182,7 +223,7 @@ function PatientDashboard() {
         </Select>
             </div>
             <div>
-              <Button variant="outlined" onClick={()=>requestSearch(filterDoctorName)}>Search</Button>
+              <Button variant="outlined" onClick={()=>requestSearch(filterDoctorName,filterDate,filterTime)}>Search</Button>
             </div>
             <div>
               <Button variant="outlined" onClick={()=>{setFilterDoctorName("");setFilterDate("");setFilterTime("");setRows(allRows)}}>Remove filter</Button>
