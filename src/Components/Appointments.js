@@ -1,8 +1,9 @@
 import { Breadcrumbs, Link } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CustomizedTable from "./CustomizedTable";
+import '../App.css'
 
 function Appointments() {
   const state = useSelector((state) => state);
@@ -18,6 +19,8 @@ function Appointments() {
     setDoctorRows(response);
   
   };
+
+  
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/patientschedules/${state.username}`;
@@ -48,13 +51,17 @@ function Appointments() {
   }
   return (
     <>
-      <Breadcrumbs>
+    <div className="bgclr">
+    <div className="p-3 mt-3">
+    <Breadcrumbs>
         <Link href="/dashboard">Dashboard</Link>
         <Link aria-current="page">Appointments</Link>
       </Breadcrumbs>
+    </div>
+      
       {state.isAuthenticated && !state.isDoctor && (
-        <div>
-          <h3 style={{textAlign:"center"}}>Your Appointments</h3><br/>
+        <div className="dashboard">
+          <h3 className="text-center">Your Appointments</h3><br/>
           <CustomizedTable
             head1="Doctor Name"
             head2="Appointment Date"
@@ -67,11 +74,12 @@ function Appointments() {
         </div>
       )}
       {state.isDoctor && (
-        <div>
-          <h3 style={{textAlign:"center"}}>Your Appointments</h3><br/>
+        <div className="dashboard">
+          <h3 className="text-center">Your Appointments</h3><br/>
           <CustomizedTable head1="Patient Name" head2="Appointment Date" head3="Appointment Day" head4="Appointment Time" head5="Reason" head6={false} rows={doctorRows}/>
         </div>
       )}
+      </div>
     </>
   );
 }

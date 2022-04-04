@@ -87,6 +87,7 @@ function Profile() {
   }
   return (
     <>
+    <div className="bgclr">
       <div className="profilediv">
         <Breadcrumbs>
           <Link href="/dashboard">Dashboard</Link>
@@ -173,6 +174,7 @@ function Profile() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

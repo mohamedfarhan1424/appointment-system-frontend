@@ -244,7 +244,7 @@ export default function CustomizedTable({
                                 className="loopbutton"
                                 onClick={() => handleClickOpen(row)}
                               >
-                                Get Appointment
+                                <img alt="calender icon" src="https://img.icons8.com/material-outlined/20/000000/planner.png"/> Get Appointment
                               </button>
                             </TableCell>
                           </TableRow>
@@ -405,6 +405,8 @@ export default function CustomizedTable({
               <hr />
               Appointment Day: {days[new Date(selected.schedule_date).getDay()]}
               <hr />
+              Appointment Time: {selected.schedule_time}
+              <hr/>
               Appointment Reason:{" "}
               <input
                 type="text"

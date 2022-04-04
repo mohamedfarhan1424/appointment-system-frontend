@@ -8,6 +8,7 @@ const initState = {
     education:"",
     speciality:"",
     accessToken:"",
+    appoints:0,
   };
   export function reducer(state = initState, action) {
     switch (action.type) {
@@ -50,7 +51,12 @@ const initState = {
               phoneno:action.payload.phoneno,
               education:action.payload.education,
               speciality:action.payload.speciality,
-            }
+            };
+            case "APPOINT":
+              return {
+                ...state,
+                appoints:action.payload.appoints
+              }
         
        
       case "LOG_OUT":
