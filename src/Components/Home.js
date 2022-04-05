@@ -2,15 +2,15 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import '../App.css';
+import "../App.css";
 
 function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [patientLogin,setPatientLogin]=useState(false);
-  const [doctorLogin,setDoctorLogin]=useState(false);
-  const [selected,setSelected]=useState(true);
+  const [patientLogin, setPatientLogin] = useState(false);
+  const [doctorLogin, setDoctorLogin] = useState(false);
+  const [selected, setSelected] = useState(true);
 
   const [dusername, setDUsername] = useState("");
   const [dpassword, setDPassword] = useState("");
@@ -22,18 +22,17 @@ function Home() {
   const handlePatientLogin = (response) => {
     if (!response.login) {
       setCheck(true);
-    } 
-    else {
+    } else {
       setCheck(false);
       dispatch({
-        type: "LOG_IN" ,
+        type: "LOG_IN",
         payload: {
           name: response.login.name,
           email: response.login.email,
           username: response.login.username,
           isAuthenticated: true,
           phoneno: response.login.phoneno,
-          accessToken:response.accessToken,
+          accessToken: response.accessToken,
         },
       });
       navigate("/dashboard");
@@ -43,20 +42,19 @@ function Home() {
   const handleDoctorLogin = (response) => {
     if (!response.login) {
       setDCheck(true);
-    } 
-    else {
+    } else {
       setDCheck(false);
       dispatch({
-        type: "LOG_IN_DOCTOR" ,
+        type: "LOG_IN_DOCTOR",
         payload: {
           name: response.login.name,
           email: response.login.email,
           username: response.login.username,
           isDoctor: true,
           phoneno: response.login.phoneno,
-          education:response.login.education,
-          speciality:response.login.speciality,
-          accessToken:response.accessToken
+          education: response.login.education,
+          speciality: response.login.speciality,
+          accessToken: response.accessToken,
         },
       });
       navigate("/dashboard");
@@ -68,7 +66,7 @@ function Home() {
     const url = `${process.env.REACT_APP_API_ROUTE}/patientlogin`;
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     };
     fetch(url, requestOptions)
@@ -93,94 +91,143 @@ function Home() {
   };
   return (
     <>
-    <div className="centerdiv">
-      {selected &&(
-      <div className="logincarder">
-        <Button size="large" variant="contained" onClick={()=>{setSelected(false);setPatientLogin(true);}}>Patient Login</Button><br/><br/>
-        <Button size="large" variant="contained" onClick={()=>{setSelected(false);setDoctorLogin(true)}}>Doctor Login</Button>
-      </div>)}
-      {patientLogin && (
-      <div className="carder">
-        <h3>Patient Login</h3>
-      <form method="post">
-        <div className="forminput">Username:{" "}
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          required
-        /></div>
-        <br />
-        <div className="forminput">Password:{" "}
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        /></div>
-        <br />
-        <button onClick={handlePatientSubmit} className="btn btn-primary">
-          Log In
-        </button>
-        <br />
-        <br />
-      </form>
-      {check && (
-        <p className="errormsg">
-          Oops! Crendiatials entered is wrong! Try Again.
-        </p>
-      )}
+      <div className="centerdiv">
+        {selected && (
+          <div className="logincarder">
+            <Button
+              size="large"
+              variant="contained"
+              onClick={() => {
+                setSelected(false);
+                setPatientLogin(true);
+              }}
+            >
+              Patient Login
+            </Button>
+            <br />
+            <br />
+            <Button
+              size="large"
+              variant="contained"
+              onClick={() => {
+                setSelected(false);
+                setDoctorLogin(true);
+              }}
+            >
+              Doctor Login
+            </Button>
+          </div>
+        )}
+        {patientLogin && (
+          <div className="carder">
+            <h3>Patient Login</h3>
+            <form method="post">
+              <div className="forminput">
+                Username:{" "}
+                <input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  required
+                />
+              </div>
+              <br />
+              <div className="forminput">
+                Password:{" "}
+                <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                />
+              </div>
+              <br />
+              <button onClick={handlePatientSubmit} className="btn btn-primary">
+                Log In
+              </button>
+              <br />
+              <br />
+            </form>
+            {check && (
+              <p className="errormsg">
+                Oops! Crendiatials entered is wrong! Try Again.
+              </p>
+            )}
 
-     <Button variant="text" onClick={()=>{setSelected(true);setPatientLogin(false);setCheck(false);setDCheck(false);}}>&larr; back</Button>
-      </div>)}
+            <Button
+              variant="text"
+              onClick={() => {
+                setSelected(true);
+                setPatientLogin(false);
+                setCheck(false);
+                setDCheck(false);
+              }}
+            >
+              &larr; back
+            </Button>
+          </div>
+        )}
 
-      {doctorLogin && (
-      <div className="carder">
-        <h3>Doctor Login</h3>
-      <form method="post">
-      <div className="forminput">Username:{" "}
-        <input
-          type="text"
-          name="username"
-          value={dusername}
-          onChange={(event) => setDUsername(event.target.value)}
-          required
-        />
-        </div>
-        <br />
-        <div className="forminput">Password:{" "}
-        <input
-          type="password"
-          name="password"
-          value={dpassword}
-          onChange={(event) => setDPassword(event.target.value)}
-          required
-        /></div><br/>
-        <button onClick={handleDoctorSubmit} className="btn btn-primary">
-          Log In
-        </button>
-        <br />
-        <br />
-      </form>
-      {dcheck && (
-        <p className="errormsg">
-          Oops! Crendiatials entered is wrong! Try Again.
-        </p>
-      )}
+        {doctorLogin && (
+          <div className="carder">
+            <h3>Doctor Login</h3>
+            <form method="post">
+              <div className="forminput">
+                Username:{" "}
+                <input
+                  type="text"
+                  name="username"
+                  value={dusername}
+                  onChange={(event) => setDUsername(event.target.value)}
+                  required
+                />
+              </div>
+              <br />
+              <div className="forminput">
+                Password:{" "}
+                <input
+                  type="password"
+                  name="password"
+                  value={dpassword}
+                  onChange={(event) => setDPassword(event.target.value)}
+                  required
+                />
+              </div>
+              <br />
+              <button onClick={handleDoctorSubmit} className="btn btn-primary">
+                Log In
+              </button>
+              <br />
+              <br />
+            </form>
+            {dcheck && (
+              <p className="errormsg">
+                Oops! Crendiatials entered is wrong! Try Again.
+              </p>
+            )}
 
-<Button variant="text" onClick={()=>{setSelected(true);setDoctorLogin(false);setCheck(false);setDCheck(false);}}>&larr;back</Button>
-      </div>)}
-      
+            <Button
+              variant="text"
+              onClick={() => {
+                setSelected(true);
+                setDoctorLogin(false);
+                setCheck(false);
+                setDCheck(false);
+              }}
+            >
+              &larr;back
+            </Button>
+          </div>
+        )}
       </div>
-      <br/>
+      <br />
       <div className="login">
-      <p>
-        Don't have an account?<a href="/signup">create account</a>
-      </p>
+        <p>
+          Don't have an account?<a href="/signup">create account</a>
+        </p>
       </div>
-     
     </>
   );
 }

@@ -5,6 +5,7 @@ import {
   CalendarMonth,
   CalendarMonthOutlined,
   Close,
+  DashboardOutlined,
   FilterAlt,
   PersonPin,
   RemoveCircleOutlineOutlined,
@@ -28,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import CustomizedTable from "./CustomizedTable";
 
-function PatientDashboard() {
+function PatientDashboard({setCurrent}) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -44,8 +45,8 @@ function PatientDashboard() {
   const [filterDate, setFilterDate] = useState("");
   const [filterTime, setFilterTime] = useState("");
   const [allRows, setAllRows] = useState([]);
-  const [patientSchedules,setPatientSchedules]=useState([]);
-  const [doctorSchedules,setDoctorSchedules]=useState([]);
+  const [patientSchedules, setPatientSchedules] = useState([]);
+  const [doctorSchedules, setDoctorSchedules] = useState([]);
 
   const times = [
     "8:00 am",
@@ -71,12 +72,12 @@ function PatientDashboard() {
     "6:00 pm",
   ];
 
-  const handlePatientSchedules=(response)=>{
+  const handlePatientSchedules = (response) => {
     setPatientSchedules(response);
-  }
-  const handleDoctorAppoints=(response)=>{
+  };
+  const handleDoctorAppoints = (response) => {
     setDoctorSchedules(response);
-  }
+  };
   const handleSchedules = (response) => {
     setRows(response);
     setAllRows(response);
@@ -87,7 +88,7 @@ function PatientDashboard() {
   };
 
   const handleFilterList = () => {
-    var doctornames =allRows&& allRows.map((row) => row.doctor_name);
+    var doctornames = allRows && allRows.map((row) => row.doctor_name);
 
     var filteredRows = [...new Set(doctornames)];
     setDoctors(filteredRows);
@@ -130,15 +131,18 @@ function PatientDashboard() {
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/getappointments/${state.username}`;
-    const requestOptions = { method: "GET",headers:{"Authorization":`Bearer ${state.accessToken}` } };
+    const requestOptions = {
+      method: "GET",
+      headers: { Authorization: `Bearer ${state.accessToken}` },
+    };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handleDoctorAppoints(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username,state.accessToken]);
+  }, [state.username, state.accessToken]);
 
   useEffect(() => {
-    var doctornames = allRows&&allRows.map((row) => row.doctor_name);
+    var doctornames = allRows && allRows.map((row) => row.doctor_name);
 
     var filteredRows = [...new Set(doctornames)];
     setDoctors(filteredRows);
@@ -212,12 +216,15 @@ function PatientDashboard() {
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_ROUTE}/patientschedules/${state.username}`;
-    const requestOptions = { method: "GET",headers:{"Authorization":`Bearer ${state.accessToken}` } };
+    const requestOptions = {
+      method: "GET",
+      headers: { Authorization: `Bearer ${state.accessToken}` },
+    };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
       .then((response) => handlePatientSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username,state.accessToken]);
+  }, [state.username, state.accessToken]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -240,30 +247,45 @@ function PatientDashboard() {
     <>
       <div className="bgclr">
         <div className="dashboard">
-          {!state.isDoctor && <h2>PATIENT DASHBOARD</h2>}
-          {state.isDoctor && <h2>DOCTOR DASHBOARD</h2>}
-          <h3>WELCOME {state.name.toUpperCase()}</h3>
+          <div className="dashicon">
+          <DashboardOutlined/>
+          </div>
+          <div className="dashtext">
+          {!state.isDoctor && <h4>Patient DashBoard</h4>}
+          {state.isDoctor && <h4>Doctor DashBoard</h4>}
+          <h6>Welcome {state.name}</h6>
+          </div>
         </div>
         {!state.isDoctor && (
           <>
             <div className="cards">
               <div className="dashcard">
+              <div className="cardicon"><PersonPin /></div>
+              <h1>{doctors && doctors.length}</h1>
                 <h5>
-                  Doctors Available <PersonPin/>
+                  Doctors Available 
                 </h5>
-                <h3>{doctors && doctors.length}</h3>
+                
+              </div>
+              
+              <div
+                onClick={() => {setCurrent("appoint");navigate("/appointments");}}
+                className="dashcardclick"
+              >
+                 <div className="cardicon"><Beenhere /></div>
+                <h1>{patientSchedules.length}</h1>
+                <h5>
+                  Appointments You Booked 
+                </h5>
+                
               </div>
               <div className="dashcard">
+              <div className="cardicon"><BookmarkAdd /></div>
+              <h1>{rows && rows.length}</h1>
                 <h5>
-                  Appointments Available <BookmarkAdd/>
+                  Appointments Available 
                 </h5>
-                <h3>{rows && rows.length}</h3>
-              </div>
-              <div onClick={()=>navigate('/appointments')} className="dashcardclick">
-                <h5>
-                  Appointments You Booked  <Beenhere/>
-                </h5>
-                <h3>{patientSchedules.length}</h3>
+                
               </div>
             </div>
 
@@ -271,7 +293,7 @@ function PatientDashboard() {
               <div className="d-flex justify-content-between">
                 <h5>Available Doctors</h5>
                 <button
-                  className={filter?"close":"filter"}
+                  className={filter ? "close" : "filter"}
                   onClick={() => {
                     handleFilterList();
                     setFilter((f) => !f);
@@ -281,8 +303,9 @@ function PatientDashboard() {
                   {filter ? "Close" : "Filter"}
                 </button>
               </div>
+              <div className="p-2">
               {filter && (
-                <div className="d-flex justify-content-around align-items-center border border-secondary p-3 mt-4">
+                <div className="d-flex justify-content-around align-items-center border border-secondary p-4 mt-4 bg-white">
                   <div>
                     <InputLabel id="demo-simple-select-helper-label">
                       Doctors
@@ -335,7 +358,7 @@ function PatientDashboard() {
                   </div>
                   <div>
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       startIcon={<Search />}
                       onClick={() =>
                         requestSearch(filterDoctorName, filterDate, filterTime)
@@ -347,7 +370,7 @@ function PatientDashboard() {
                   </div>
                   <div>
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       startIcon={<RemoveCircleOutlineOutlined />}
                       onClick={() => {
                         setFilterDoctorName("");
@@ -361,6 +384,7 @@ function PatientDashboard() {
                   </div>
                 </div>
               )}
+              </div>
               <div className="tablediv">
                 <CustomizedTable
                   head1="Doctor Name"
@@ -379,22 +403,31 @@ function PatientDashboard() {
           <div>
             <div className="cards">
               <div className="dashcard">
+              <div className="cardicon"><CalendarMonth /> </div>
+                <h1>{scheduleRows && scheduleRows.length}</h1>
                 <h5>
-                  No.of Schedules <CalendarMonth />
+                  Schedules Added
                 </h5>
-                <h3>{scheduleRows&& scheduleRows.length}</h3>
+              </div>
+              <div className="dashcardclick" onClick={()=>{setCurrent("appoint");navigate('/appointments')}}>
+              <div className="cardicon"><Beenhere /></div>
+                
+                <h1>{doctorSchedules && doctorSchedules.length}</h1>
+                <h5>
+                  Appointments Booked 
+                </h5>
               </div>
               <div className="dashcard">
+              <div className="cardicon"><BookmarkBorder /></div>
+              <h1>
+                  {scheduleRows &&
+                    doctorSchedules &&
+                    scheduleRows.length - doctorSchedules.length}
+                </h1>
                 <h5>
-                  Appointments Booked <Beenhere/>
+                  Appointment Not Booked 
                 </h5>
-                <h3>{doctorSchedules && doctorSchedules.length}</h3>
-              </div>
-              <div className="dashcard">
-                <h5>
-                  Appointments not Booked  <BookmarkBorder/>
-                </h5>
-                <h3>{scheduleRows&&doctorSchedules&& scheduleRows.length-doctorSchedules.length}</h3>
+                
               </div>
             </div>
             <div className="d-flex justify-content-around">

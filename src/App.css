@@ -1,122 +1,126 @@
-
-.sidebar{
-  position: absolute;
-  left: 0;
-  margin-left: -40%;
-  height: 99%;
+.sidebar {
+  position:sticky;
+  top:10%;
+  height: 100%;
+  
   width: 78px;
-  background: #665ae9;
+  /* background: rgba(187, 252, 252, 0.35); */
+  background-color: white;
   padding: 6px 14px;
-  z-index: 99;
   transition: all 0.5s ease;
-  border-radius: 13px;
-  border: solid;
-  border-width: 1.5px;
-  border-color: rgb(94, 91, 91);
 }
-.sidebar.active{
+.sidebar.active {
   margin-left: 0%;
   width: 240px;
-  background:  rgba(187, 252, 252, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  /* background: rgba(187, 252, 252, 0.35); */
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);   */
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
 }
-.main{
-  display: block;
-  grid-template-columns: 20% 80%;
-  transition: all 0.7s ease;
+.main {
+  display: flex;
+  justify-content: flex-start;
 }
-
-.sidebarbutton{
+.routes{
+  width: 100%;
+}
+.sidebarbutton {
   width: 100%;
   padding: 2%;
-  background-color: rgba(6, 148, 243, 0.4);
-  border-radius: 12px;
+  background-color: rgb(173, 216, 230);
   border: none;
-  margin-top: 10%;
+  border-radius: 2px;
+  margin-top: 20%;
+  color: rgb(0, 102, 255);
 }
-.sidebarbuttonselect{
+.sidebarbuttonselect {
   width: 100%;
   padding: 2%;
-  margin-top: 10%;
-  background-color: rgba(153, 204, 252, 0.4);
-  border-radius: 12px;
+  margin-top: 20%;
+  border-radius: 2px;
   border: none;
+  color: rgb(0, 102, 255);
 }
-.sidebarbuttonselect:hover{
-  background-color: rgba(6, 148, 243, 0.4);
+.sidebarbuttonselect:hover {
+  background-color: rgb(173, 216, 230,0.7);
 }
-.head {
-  text-align: left;
-  background: linear-gradient(to right, #25aae1, #40e495);
-  display: grid;
-  grid-template-columns: 40% 60%;
-  padding: 1%;
-  position: sticky;
-  border-bottom: 1px solid #87cefa;
-  color: white;
+.text{
+  display: inline;
 }
-.menuicon{
-  cursor: pointer;
-  transition: all 0.5s ease;
-}
-.menuicon.rot{
-  transform: rotate(90deg); 
-  transition: all 0.5s ease;
+.texthid{
+  display: none;
 }
 .dashboard {
-  padding: 4%;
-  text-align: center;
-  color: rgb(2, 100, 248);
+  padding: 3%;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  
 }
-.cards{
+.dashtext{
+  padding-left: 2%;
+}
+.dashicon{
+  background-color: white;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.cards {
   display: flex;
   justify-content: space-around;
-  padding: 1%;
+  padding: 3%;
 }
-.bgclr{
-  background-color: rgb(220, 220, 220,0.7);
-  
- 
+.bgclr {
+  padding: 2%;
+  background-color: #9fbbd6;
 }
-.dashcard{
-  padding: 1%;
- border-left: 5px solid rgb(255, 0, 0,0.9);
-  border-radius: 7px; 
-  text-align: left;
-  background-color: rgba(0, 153, 255, 0.6);
-  color: white;
+.dashcard {
+  padding: 3%;
+  /* border-left: 5px solid rgb(255, 0, 0, 0.9); */
+  width: 25%;
+  text-align: center;
+  background-color: white;
+  color: black;
+  border: 1px solid rgb(0, 0, 0,0.3);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
-.dashcardclick{
-  padding: 1%;
-  border-left: 5px solid rgb(255, 0, 0,0.9);
-   border-radius: 7px; 
-   text-align: left;
-   background-color: rgba(0, 153, 255, 0.6);
-   color: white;
-   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-   cursor: pointer;
+.dashcardclick {
+  padding: 3%;
+  width: 25%;
+  /* border-left: 5px solid rgb(255, 0, 0, 0.9); */
+  text-align: center;
+  background-color: white;
+  color: black;
+  border: 1px solid rgb(0, 0, 0,0.3);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  cursor: pointer;
+}
+.cardicon{
+  background-color: rgb(216, 112, 147,0.5);
+  padding: 3%;
+  border-radius: 3px;
+  opacity: 0.5;
+  justify-content: center;
+  color: red;
+  margin-bottom: 4%;
 }
 .filter {
   background-color: #1a75ff;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 3px;
   box-shadow: 4px 4px 10px 2px gainsboro;
   padding: 0.6%;
 }
 .filter:hover {
   box-shadow: 4px 4px 10px 2px lightblue;
 }
-.close{
+.close {
   background-color: red;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 3px;
   box-shadow: 4px 4px 10px 2px gainsboro;
   padding: 0.6%;
 }
@@ -127,7 +131,7 @@
   color: black;
   background-color: aqua;
   border: none;
-  border-radius: 12px;
+  border-radius: 2px;
   box-shadow: 4px 4px 10px 2px gainsboro;
   padding: 4%;
 }
@@ -174,6 +178,10 @@
   padding: 1%;
   margin-top: 1%;
 }
+.appointments{
+  position: relative;
+  bottom: 0;
+}
 .profilediv {
   padding: 2%;
 }
@@ -187,12 +195,14 @@
   border-radius: 7px;
   text-align: center;
   margin-left: 30%;
+  padding: 1%;
 }
-.truestatus{
+.truestatus {
   background-color: green;
   color: white;
   width: 40%;
   border-radius: 7px;
   text-align: center;
   margin-left: 30%;
+  padding: 1%;
 }

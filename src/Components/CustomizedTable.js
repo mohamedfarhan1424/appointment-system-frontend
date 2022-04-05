@@ -16,18 +16,17 @@ import {
 } from "@mui/material";
 import "../App.css";
 import { useSelector } from "react-redux";
-import '../App.css'
+import "../App.css";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 
-
-const useStyles=makeStyles({
-  tableBody:{
-    height:"2vw",
-    textAlign:"center",
-    color:"white"
-  }
-})
+const useStyles = makeStyles({
+  tableBody: {
+    height: "2vw",
+    textAlign: "center",
+    color: "white",
+  },
+});
 
 export default function CustomizedTable({
   head1,
@@ -38,7 +37,7 @@ export default function CustomizedTable({
   head6,
   rows,
 }) {
-  const classes=useStyles();
+  const classes = useStyles();
   const state = useSelector((state) => state);
   const columns = [
     { id: head1, label: head1, minWidth: 170 },
@@ -77,7 +76,7 @@ export default function CustomizedTable({
   const [cancelId, setCancelId] = React.useState(0);
   const [selected, setSelected] = React.useState({});
   const [reason, setReason] = React.useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -119,7 +118,7 @@ export default function CustomizedTable({
     const url = `${process.env.REACT_APP_API_ROUTE}/deleteschedule/${removeId}`;
     const requestOptions = {
       method: "DELETE",
-      headers:{"Authorization":`Bearer ${state.accessToken}` }
+      headers: { Authorization: `Bearer ${state.accessToken}` },
     };
     fetch(url, requestOptions)
       .then((response) => (response = response.json()))
@@ -130,7 +129,10 @@ export default function CustomizedTable({
     const url = `${process.env.REACT_APP_API_ROUTE}/cancelappointment`;
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" ,"Authorization":`Bearer ${state.accessToken}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${state.accessToken}`,
+      },
       body: JSON.stringify({
         scheduleId: cancelId,
       }),
@@ -144,7 +146,10 @@ export default function CustomizedTable({
     const url = `${process.env.REACT_APP_API_ROUTE}/makeschedule`;
     const requestOptions = {
       method: "PUT",
-      headers: { "Content-Type": "application/json","Authorization":`Bearer ${state.accessToken}`  },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${state.accessToken}`,
+      },
       body: JSON.stringify({
         patientName: state.username,
         reason: reason,
@@ -155,7 +160,7 @@ export default function CustomizedTable({
       .then((response) => (response = response.json()))
       .catch((error) => console.log("Form submit error", error));
 
-      navigate('/appointments');
+    navigate("/appointments");
   };
 
   const days = [
@@ -170,7 +175,7 @@ export default function CustomizedTable({
 
   return (
     <>
-      <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }} >
+      <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }}>
         {rows && rows.length === 0 && (
           <>
             {head6 && head5 && (
@@ -180,14 +185,10 @@ export default function CustomizedTable({
               <p className="errormsg">You have not added any shcedules.</p>
             )}
             {!head6 && head5 === "Cancel" && (
-              <p className="errormsg">
-                You have not booked any appointments.
-              </p>
+              <p className="errormsg">You have not booked any appointments.</p>
             )}
             {!head6 && head5 === "Reason" && (
-              <p className="errormsg">
-                You have not booked by any patients
-              </p>
+              <p className="errormsg">You have not booked by any patients</p>
             )}
           </>
         )}
@@ -211,7 +212,7 @@ export default function CustomizedTable({
                     )}
                   </TableRow>
                 </TableHead>
-                <TableBody  className={classes.tableBody}>
+                <TableBody className={classes.tableBody}>
                   {head6 &&
                     head5 &&
                     rows &&
@@ -229,7 +230,9 @@ export default function CustomizedTable({
                             key={row.schedule_id}
                           >
                             <TableCell>{row.doctor_name}</TableCell>
-                            <TableCell align="center">{row.education}</TableCell>
+                            <TableCell align="center">
+                              {row.education}
+                            </TableCell>
                             <TableCell align="center">
                               {row.speciality}
                             </TableCell>
@@ -244,7 +247,11 @@ export default function CustomizedTable({
                                 className="loopbutton"
                                 onClick={() => handleClickOpen(row)}
                               >
-                                <img alt="calender icon" src="https://img.icons8.com/material-outlined/20/000000/planner.png"/> Get Appointment
+                                <img
+                                  alt="calender icon"
+                                  src="https://img.icons8.com/material-outlined/20/000000/planner.png"
+                                />{" "}
+                                Get Appointment
                               </button>
                             </TableCell>
                           </TableRow>
@@ -275,27 +282,22 @@ export default function CustomizedTable({
                             </TableCell>
                             <TableCell align="center">
                               {row.patient_booked === null && (
-                                <p
-                                  className="falsestatus"
-                                >
-                                  Not Booked
-                                </p>
+                                <p className="falsestatus">Not Booked</p>
                               )}
                               {row.patient_booked !== null && (
-                                <p
-                                  className="truestatus"
-                                >
-                                  Booked
-                                </p>
+                                <p className="truestatus">Booked</p>
                               )}
                             </TableCell>
                             <TableCell align="center">
                               {row.patient_booked === null && (
-                                
-                                  <img className="imgicon" alt="trash icon" onClick={() =>
+                                <img
+                                  className="imgicon"
+                                  alt="trash icon"
+                                  onClick={() =>
                                     handleRemoveOpen(row.schedule_id)
-                                  } src="https://img.icons8.com/color/20/000000/delete-forever.png"/>
-                              
+                                  }
+                                  src="https://img.icons8.com/color/20/000000/delete-forever.png"
+                                />
                               )}
                             </TableCell>
                           </TableRow>
@@ -319,7 +321,7 @@ export default function CustomizedTable({
                           >
                             <TableCell>{row.doctor_name}</TableCell>
                             <TableCell align="center">
-                            {row.schedule_date}
+                              {row.schedule_date}
                             </TableCell>
                             <TableCell align="center">
                               {days[new Date(row.schedule_date).getDay()]}
@@ -328,11 +330,14 @@ export default function CustomizedTable({
                               {row.schedule_time}
                             </TableCell>
                             <TableCell align="center">
-                              
-                                <img className="imgicon" alt="trash icon" onClick={() =>
+                              <img
+                                className="imgicon"
+                                alt="trash icon"
+                                onClick={() =>
                                   handleCancelOpen(row.schedule_id)
-                                } src="https://img.icons8.com/color/20/000000/delete-forever.png"/>
-                           
+                                }
+                                src="https://img.icons8.com/color/20/000000/delete-forever.png"
+                              />
                             </TableCell>
                           </TableRow>
                         );
@@ -406,7 +411,7 @@ export default function CustomizedTable({
               Appointment Day: {days[new Date(selected.schedule_date).getDay()]}
               <hr />
               Appointment Time: {selected.schedule_time}
-              <hr/>
+              <hr />
               Appointment Reason:{" "}
               <input
                 type="text"

@@ -1,4 +1,5 @@
-import { Breadcrumbs, Button, Link } from "@mui/material";
+import { Person } from "@mui/icons-material";
+import { Button} from "@mui/material";
 import React, {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -89,10 +90,20 @@ function Profile() {
     <>
     <div className="bgclr">
       <div className="profilediv">
-        <Breadcrumbs>
+      <div className="dashboard">
+          <div className="dashicon">
+          <Person/>
+          </div>
+          <div className="dashtext">
+          {!state.isDoctor && <h4>Patient Profile</h4>}
+          {state.isDoctor && <h4>Doctor Profile</h4>}
+          <h6>Username : {state.username}</h6>
+          </div>
+        </div>
+        {/* <Breadcrumbs>
           <Link href="/dashboard">Dashboard</Link>
           <Link aria-current="page">Profile</Link>
-        </Breadcrumbs>
+        </Breadcrumbs> */}
 
         <div className="carder">
           <div className="profile">
