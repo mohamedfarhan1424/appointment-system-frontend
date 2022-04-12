@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,10 +23,12 @@ function Signup() {
   const [deducation, setDEducation] = useState("");
   const [dspeciality, setDSpeciality] = useState("");
   const [dcheck, setDCheck] = useState(false);
+  const [loading,setLoading]=useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handlePatientSignup = (response) => {
+    setLoading(false);
     if (!response.usercreated) {
       setCheck(true);
     } else {
@@ -47,6 +49,7 @@ function Signup() {
   };
 
   const handleDoctorSignup = (response) => {
+    setLoading(false);
     if (!response.doctorcreated) {
       setDCheck(true);
     } else {
@@ -69,6 +72,7 @@ function Signup() {
   };
 
   const handlePatientSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
     const url = `${process.env.REACT_APP_API_ROUTE}/patientsignup`;
     const requestOptions = {
@@ -83,6 +87,7 @@ function Signup() {
   };
 
   const handleDoctorSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
     const url = `${process.env.REACT_APP_API_ROUTE}/doctorsignup`;
     const requestOptions = {
@@ -192,9 +197,12 @@ function Signup() {
                 />
               </div>
               <br />
-              <button onClick={handlePatientSubmit} className="btn btn-primary">
+              {loading?(<CircularProgress/>):(
+                <button onClick={handlePatientSubmit} className="btn btn-primary">
                 Sign Up
               </button>
+              )}
+              
               <br />
               <br />
             </form>
@@ -299,9 +307,12 @@ function Signup() {
                 />
               </div>
               <br />
-              <button onClick={handleDoctorSubmit} className="btn btn-primary">
+              {loading?(<CircularProgress/>):(
+                <button onClick={handleDoctorSubmit} className="btn btn-primary">
                 Sign Up
               </button>
+              )}
+              
               <br />
               <br />
             </form>

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,11 @@ function Home() {
   const state=useSelector(state=>state);
   const [check, setCheck] = useState(false);
   const [dcheck, setDCheck] = useState(false);
+  const [loading,setLoading]=useState(false);
   const navigate = useNavigate();
 
   const handlePatientLogin = (response) => {
+    setLoading(false);
     if (!response.login) {
       setCheck(true);
     } else {
@@ -41,6 +43,7 @@ function Home() {
   };
 
   const handleDoctorLogin = (response) => {
+    setLoading(false);
     if (!response.login) {
       setDCheck(true);
     } else {
@@ -62,6 +65,7 @@ function Home() {
     }
   };
   const handlePatientSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
 
     const url = `${process.env.REACT_APP_API_ROUTE}/patientlogin`;
@@ -77,6 +81,7 @@ function Home() {
   };
 
   const handleDoctorSubmit = (event) => {
+    setLoading(true);
     event.preventDefault();
 
     const url = `${process.env.REACT_APP_API_ROUTE}/doctorlogin`;
@@ -153,9 +158,12 @@ function Home() {
                 />
               </div>
               <br />
-              <button onClick={handlePatientSubmit} className="btn btn-primary">
-                Log In
+              {loading?(<CircularProgress/>):(
+                <button onClick={handlePatientSubmit} className="btn btn-primary">
+                Log in
               </button>
+              )}
+              
               <br />
               <br />
             </form>
@@ -205,9 +213,12 @@ function Home() {
                 />
               </div>
               <br />
-              <button onClick={handleDoctorSubmit} className="btn btn-primary">
+              {loading?(<CircularProgress/>):(
+                <button onClick={handleDoctorSubmit} className="btn btn-primary">
                 Log In
               </button>
+              )}
+              
               <br />
               <br />
             </form>
