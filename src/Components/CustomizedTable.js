@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   tableBody: {
     height: "2vw",
     textAlign: "center",
-    color: "white",
+    color: "white"
   },
 });
 

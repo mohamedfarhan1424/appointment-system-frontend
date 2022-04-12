@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -23,7 +24,7 @@ import {
   TextField,
 } from "@mui/material";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
@@ -47,6 +48,7 @@ function PatientDashboard({setCurrent}) {
   const [allRows, setAllRows] = useState([]);
   const [patientSchedules, setPatientSchedules] = useState([]);
   const [doctorSchedules, setDoctorSchedules] = useState([]);
+  const [loading,setLoading]=useState(true);
 
   const times = [
     "8:00 am",
@@ -73,21 +75,30 @@ function PatientDashboard({setCurrent}) {
   ];
 
   const handlePatientSchedules = (response) => {
+    setLoading(false);
     setPatientSchedules(response);
   };
   const handleDoctorAppoints = (response) => {
+    setLoading(false);
     setDoctorSchedules(response);
   };
   const handleSchedules = (response) => {
+
     setRows(response);
+    setLoading(false)
+    if(response===true){
+      return
+    }
     setAllRows(response);
   };
 
   const handleDoctorSchedules = (response) => {
+    setLoading(false);
     setScheduleRows(response);
   };
 
   const handleFilterList = () => {
+    console.log(allRows)
     var doctornames = allRows && allRows.map((row) => row.doctor_name);
 
     var filteredRows = [...new Set(doctornames)];
@@ -139,7 +150,7 @@ function PatientDashboard({setCurrent}) {
       .then((response) => (response = response.json()))
       .then((response) => handleDoctorAppoints(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username, state.accessToken]);
+  }, [state.username, rows,state.accessToken]);
 
   useEffect(() => {
     var doctornames = allRows && allRows.map((row) => row.doctor_name);
@@ -158,7 +169,7 @@ function PatientDashboard({setCurrent}) {
       .then((response) => (response = response.json()))
       .then((response) => handleDoctorSchedules(response))
       .catch((error) => console.log("Form submit error", error));
-  }, [state.username, state.accessToken]);
+  }, [state.username, rows,state.accessToken]);
 
   const requestSearch = (name, date, time) => {
     if (name === "" && date === "" && time === "") {
@@ -386,7 +397,11 @@ function PatientDashboard({setCurrent}) {
               )}
               </div>
               <div className="tablediv">
-                <CustomizedTable
+                {loading && (
+                  <CircularProgress/>
+                )}
+                {!loading && (
+                  <CustomizedTable
                   head1="Doctor Name"
                   head2="Education"
                   head3="Speciality"
@@ -395,6 +410,9 @@ function PatientDashboard({setCurrent}) {
                   head6="Appointment"
                   rows={rows}
                 />
+                )}
+                
+                
               </div>
             </div>
           </>
@@ -437,7 +455,9 @@ function PatientDashboard({setCurrent}) {
               </button>
             </div>
             <div className="tablediv">
-              <CustomizedTable
+              {loading && (<CircularProgress/>)}
+              {!loading && (
+                <CustomizedTable
                 head1="Schedule Date"
                 head2="Schedule Day"
                 head3="Schedule Time"
@@ -446,6 +466,9 @@ function PatientDashboard({setCurrent}) {
                 head6={false}
                 rows={scheduleRows}
               />
+              )}
+              
+              
             </div>
             <div>
               <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">

@@ -219,7 +219,7 @@
 .falsestatus {
   background-color: grey;
   color: white;
-  width: 40%;
+  width: 45%;
   border-radius: 7px;
   text-align: center;
   margin-left: 30%;
@@ -228,7 +228,7 @@
 .truestatus {
   background-color: green;
   color: white;
-  width: 40%;
+  width: 45%;
   border-radius: 7px;
   text-align: center;
   margin-left: 30%;

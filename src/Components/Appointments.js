@@ -5,18 +5,21 @@ import { useNavigate } from "react-router-dom";
 import CustomizedTable from "./CustomizedTable";
 import "../App.css";
 import { CalendarMonth } from "@mui/icons-material";
+import {CircularProgress} from '@mui/material';
 
 function Appointments() {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [doctorRows, setDoctorRows] = useState([]);
+  const [loading,setLoading]=useState(true);
 
   const handlePatientSchedules = (response) => {
+    setLoading(false);
     setRows(response);
   };
   const handleDoctorSchedules = (response) => {
-    console.log(response);
+    setLoading(false);
     setDoctorRows(response);
   };
 
@@ -76,7 +79,9 @@ function Appointments() {
           <>
           <br/>
           <div className="appointments">
-            <CustomizedTable
+            {loading && (<CircularProgress/>)}
+            {!loading && (
+              <CustomizedTable
               head1="Doctor Name"
               head2="Appointment Date"
               head3="Appointment Day"
@@ -85,6 +90,8 @@ function Appointments() {
               head6={false}
               rows={rows}
             />
+            )}
+            
           </div>
           </>
         )}
@@ -92,7 +99,8 @@ function Appointments() {
           <>
           <br/>
           <div className="appointments">
-            <CustomizedTable
+            {loading?(<CircularProgress/>):(
+              <CustomizedTable
               head1="Patient Name"
               head2="Appointment Date"
               head3="Appointment Day"
@@ -101,6 +109,8 @@ function Appointments() {
               head6={false}
               rows={doctorRows}
             />
+            )}
+            
           </div>
           </>
         )}
