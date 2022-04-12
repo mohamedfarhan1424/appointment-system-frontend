@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
@@ -15,6 +15,7 @@ function Home() {
   const [dusername, setDUsername] = useState("");
   const [dpassword, setDPassword] = useState("");
   const dispatch = useDispatch();
+  const state=useSelector(state=>state);
   const [check, setCheck] = useState(false);
   const [dcheck, setDCheck] = useState(false);
   const navigate = useNavigate();
@@ -89,6 +90,14 @@ function Home() {
       .then((response) => handleDoctorLogin(response))
       .catch((error) => console.log("Form submit error", error));
   };
+  if(state.isAuthenticated){
+    navigate('/dashboard');
+    return (
+      <>
+      <a href="/dashboard">dashboard</a>
+      </>
+    )
+  }
   return (
     <>
       <div className="centerdiv">

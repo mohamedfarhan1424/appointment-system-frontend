@@ -55,7 +55,7 @@ function Appointments() {
   }
   return (
     <>
-      <div className="bgclr">
+      <div className="bgclrappoint">
         {/* <div className="p-3 mt-3">
           <Breadcrumbs>
             <Link href="/dashboard">Dashboard</Link>

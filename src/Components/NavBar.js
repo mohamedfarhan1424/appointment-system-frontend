@@ -47,6 +47,7 @@ function NavBar({ show, current, setCurrent }) {
             </div>
           </button>
 
+
           <button
             onClick={() => {
               navigate("/profile");

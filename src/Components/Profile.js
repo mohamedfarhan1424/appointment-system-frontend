@@ -104,7 +104,21 @@ function Profile() {
           <Link href="/dashboard">Dashboard</Link>
           <Link aria-current="page">Profile</Link>
         </Breadcrumbs> */}
-
+        {/* <div className="profiledivs">
+          <div className="profilecard">
+            <div>
+          <div className="profilehead">
+            <Person/>
+            <h2>{state.name}</h2>
+            <h6>Username : {state.username}</h6>
+          </div>
+          <div className="d-flex justify-content-around">
+            <h6>Email: {state.email}</h6>
+          </div>
+        </div>
+        </div>
+        </div> */}
+        
         <div className="carder">
           <div className="profile">
             <h6>Name:</h6> {!edit && name}{" "}
@@ -150,7 +164,7 @@ function Profile() {
                 <br />
               </>
             )}
-            <h6>User Name:</h6> {state.username}
+            {/* <h6>User Name:</h6> {state.username} */}
             <br />
             <br />
             <div className="d-flex justify-content-around">
